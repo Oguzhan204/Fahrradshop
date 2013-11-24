@@ -1,7 +1,7 @@
 package de.shop.util;
 
 /**
- * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
+ * @author <a href="mailto:oguzhan.atmaca@web.de">Oguzhan Atmaca</a>
  */
 public class NotFoundException extends RuntimeException {
 	private static final long serialVersionUID = -866705588853138386L;

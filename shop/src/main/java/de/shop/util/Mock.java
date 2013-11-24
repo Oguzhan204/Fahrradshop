@@ -1,5 +1,6 @@
 package de.shop.util;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -11,6 +12,12 @@ import de.shop.kundenverwaltung.domain.Adresse;
 import de.shop.kundenverwaltung.domain.Firmenkunde;
 import de.shop.kundenverwaltung.domain.HobbyType;
 import de.shop.kundenverwaltung.domain.Privatkunde;
+import de.shop.artikelverwaltung.domain.Artikel;
+
+/**
+ * @author <a href="mailto:oguzhan.atmaca@web.de">Oguzhan Atmaca</a>
+ */
+
 
 /**
  * Emulation des Anwendungskerns
@@ -19,6 +26,51 @@ public final class Mock {
 	private static final int MAX_ID = 99;
 	private static final int MAX_KUNDEN = 8;
 	private static final int MAX_BESTELLUNGEN = 4;
+	private static final int MAX_ARTIKEL = 99;
+
+	public static Artikel findArtikelById(Long id) {
+		if (id > MAX_ARTIKEL) {
+			return null;
+		}
+		
+		final Artikel artikel = new Artikel(id);
+		artikel.setId(id);
+		artikel.setBezeichnung("Bezeichnung" + id);
+		
+		
+		return artikel;
+	}
+	
+	public static Artikel createArtikel(Artikel artikel) {
+		// Neue IDs fuer Artikel
+		final String bezeichnung = artikel.getBezeichnung();
+		artikel.setId(Long.valueOf(bezeichnung.length()) + 1);
+		final BigDecimal preis = artikel.getPreis();
+		artikel.setPreis(preis);
+		
+		
+		System.out.println("Neuer Artikel: " + artikel);
+		return artikel;
+	}
+	
+	public static List<Artikel> findAllArtikel() {
+		final int anzahl = MAX_ARTIKEL;
+		final List<Artikel> artikellist = new ArrayList<>(anzahl);
+		for (int i = 1; i <= anzahl; i++) {
+			final Artikel artikel = findArtikelById(Long.valueOf(i));
+			artikellist.add(artikel);			
+		}
+		return artikellist;
+	}
+	
+	public static void updateArtikel(Artikel artikel) {
+		System.out.println("Aktualisierter Artikel: " + artikel);
+	}
+
+	public static void deleteArtikel(Long artikelid) {
+		System.out.println("Artikel mit ID=" + artikelid + " geloescht");
+	}
+	
 
 	public static AbstractKunde findKundeById(Long id) {
 		if (id > MAX_ID) {

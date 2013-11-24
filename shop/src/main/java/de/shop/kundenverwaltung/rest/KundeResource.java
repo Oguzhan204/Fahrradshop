@@ -18,7 +18,6 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -40,8 +39,10 @@ import de.shop.util.UriHelper;
 import de.shop.util.NotFoundException;
 
 /**
- * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
+ * @author <a href="mailto:oguzhan.atmaca@web.de">Oguzhan Atmaca</a>
  */
+
+
 @Path("/kunden")
 @Produces({ APPLICATION_JSON, APPLICATION_XML + ";qs=0.75", TEXT_XML + ";qs=0.5" })
 @Consumes
