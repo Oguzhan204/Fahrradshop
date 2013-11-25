@@ -3,7 +3,7 @@ package de.shop.kundenverwaltung.domain;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * @author <a href="mailto:oguzhan.atmaca@web.de">Oguzhan Atmaca</a>
+ * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
  */
 @XmlRootElement
 public class Firmenkunde extends AbstractKunde {

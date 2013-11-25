@@ -2,17 +2,32 @@ package de.shop.kundenverwaltung.domain;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- * @author <a href="mailto:oguzhan.atmaca@web.de">Oguzhan Atmaca</a>
+ * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
  */
 public class Adresse implements Serializable {
 	private static final long serialVersionUID = -3029272617931844501L;
+	
+	private static final int PLZ_LENGTH_MAX = 5;
+	private static final int ORT_LENGTH_MIN = 2;
+	private static final int ORT_LENGTH_MAX = 32;
+	
 	private Long id;
+	
+	@NotNull(message = "{adresse.plz.notNull}")
+	@Pattern(regexp = "\\d{5}", message = "{adresse.plz}")
 	private String plz;
+	
+	@NotNull(message = "{adresse.ort.notNull}")
+	@Size(min = ORT_LENGTH_MIN, max = ORT_LENGTH_MAX, message = "{adresse.ort.length}")
 	private String ort;
 	
+	//NICHT @NotNull, weil beim Anlegen ueber REST der Rueckwaertsverweis noch nicht existiert
 	@XmlTransient
 	private AbstractKunde kunde;
 	
