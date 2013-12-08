@@ -7,7 +7,7 @@ import de.shop.util.interceptor.Log;
 import de.shop.util.Mock;
 
 /**
- * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
+ * @author <a href="mailto:oguzhan.atmaca@web.de">Oguzhan Atmaca</a>
  */
 @Log
 public class ArtikelService implements Serializable {

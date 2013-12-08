@@ -1,7 +1,7 @@
 package de.shop.kundenverwaltung.domain;
 
 /**
- * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
+ * @author <a href="mailto:oguzhan.atmaca@web.de">Oguzhan Atmaca</a>
  */
 public enum HobbyType {
 	SPORT,

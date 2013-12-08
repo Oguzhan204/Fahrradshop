@@ -20,7 +20,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -55,7 +54,7 @@ public class KundeResource {
 	private static final String NOT_FOUND_ID = "kunde.notFound.id";
 	private static final String NOT_FOUND_NACHNAME = "kunde.notFound.nachname";
 	private static final String NOT_FOUND_ALL = "kunde.notFound.all";
-
+	
 	@Context
 	private UriInfo uriInfo;
 	

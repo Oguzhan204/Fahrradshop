@@ -6,7 +6,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.core.UriInfo;
 
 /**
- * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
+ * @author <a href="mailto:oguzhan.atmaca@web.de">Oguzhan Atmaca</a>
  */
 @ApplicationScoped
 public class UriHelper {
