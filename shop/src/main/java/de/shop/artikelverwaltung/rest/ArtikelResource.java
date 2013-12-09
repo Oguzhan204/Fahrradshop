@@ -25,7 +25,7 @@ import de.shop.util.interceptor.Log;
 import de.shop.util.rest.UriHelper;
 
 /**
- * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
+ * @author <a href="mailto:oguzhan.atmaca@web.de">Oguzhan Atmaca</a>
  */
 @Path("/artikel")
 @Produces({ APPLICATION_JSON, APPLICATION_XML + ";qs=0.75", TEXT_XML + ";qs=0.5" })
@@ -41,7 +41,7 @@ public class ArtikelResource {
 	
 	@GET
 	@Path("{id:[1-9][0-9]*}")
-	public Response findArtikelById(@PathParam("id") Long id, @Context UriInfo uriInfo) {
+	public Response FindArtikelById(@PathParam("id") Long id, @Context UriInfo uriInfo) {
 		final Artikel artikel = as.findArtikelById(id);
 		return Response.ok(artikel)
                        .links(getTransitionalLinks(artikel, uriInfo))
