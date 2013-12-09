@@ -1,7 +1,7 @@
 package de.shop.util;
 
 /**
- * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
+ * @author <a href="mailto:oguzhan.atmaca@web.de">Oguzhan Atmaca</a>
  */
 public final class Constants {
 	public static final String REST_PATH = "/rest";

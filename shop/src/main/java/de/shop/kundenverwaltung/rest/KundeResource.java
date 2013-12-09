@@ -55,7 +55,13 @@ public class KundeResource {
 	public static final String KUNDEN_EMAIL_QUERY_PARAM = "email";
 	public static final String KUNDEN_PLZ_QUERY_PARAM = "plz";
 	
-	@Context   // DI durch JAX-RS, weshalb Producer-Klasse mit CDI fuer spaeteres @Inject nicht funktioniert
+	@Context
+	// DI durch JAX-RS, weshalb Producer-Klasse mit CDI fuer spaeteres @Inject nicht funktioniert
+	private static final String NOT_FOUND_ID = "kunde.notFound.id";
+	private static final String NOT_FOUND_NACHNAME = "kunde.notFound.nachname";
+	private static final String NOT_FOUND_ALL = "kunde.notFound.all";
+	
+	@Context
 	private UriInfo uriInfo;
 	
 	@Inject

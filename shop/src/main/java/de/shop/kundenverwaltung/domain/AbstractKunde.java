@@ -22,7 +22,7 @@ import org.hibernate.validator.constraints.Email;
 import de.shop.bestellverwaltung.domain.Bestellung;
 
 /**
- * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
+ * @author <a href="mailto:oguzhan.atmaca@web.de">Oguzhan Atmaca</a>
  */
 @XmlRootElement
 @XmlSeeAlso({ Firmenkunde.class, Privatkunde.class })
