@@ -10,6 +10,13 @@ import de.shop.kundenverwaltung.domain.AbstractKunde;
  * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
  */
 public interface BestellungService {
+	/*
+	 * Java 8 hat zwar Default-Methoden in Interfaces, wie z.B.
+	 *    default public Bestellung findBestellungById(Long id, FetchType fetch) {...}
+	 * ABER:
+	 *    Es duerfen keine Attribute definiert werden - auch nicht injizierte.
+	 */
+
 	Bestellung findBestellungById(Long id);
 	List<Bestellung> findBestellungenByKunde(AbstractKunde kunde);
 	Bestellung createBestellung(Bestellung bestellung, AbstractKunde kunde, Locale locale);

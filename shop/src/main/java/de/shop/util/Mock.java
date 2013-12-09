@@ -111,7 +111,7 @@ public final class Mock {
 			hobbies.add(HobbyType.REISEN);
 			privatkunde.setHobbies(hobbies);
 		}
-		
+
 		return kunde;
 	}
 	
@@ -144,7 +144,7 @@ public final class Mock {
 		return bestellung;
 	}
 
-	public static AbstractKunde createKunde(AbstractKunde kunde) {
+	public static <T extends AbstractKunde> T createKunde(T kunde) {
 		// Neue IDs fuer Kunde und zugehoerige Adresse
 		// Ein neuer Kunde hat auch keine Bestellungen
 		final String nachname = kunde.getNachname();
