@@ -81,8 +81,4 @@ public class Bestellung implements Serializable {
 	public String toString() {
 		return "Bestellung [id=" + id + ", ausgeliefert=" + ausgeliefert + ", kundeUri=" + kundeUri + "]";
 	}
-	public Object getBestellpositionen() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

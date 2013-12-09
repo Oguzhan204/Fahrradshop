@@ -15,12 +15,12 @@ import static javax.ws.rs.core.MediaType.TEXT_XML;
 import java.net.URI;
 import java.util.List;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -34,29 +34,28 @@ import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.hibernate.validator.constraints.Email;
+
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.bestellverwaltung.rest.BestellungResource;
 import de.shop.bestellverwaltung.service.BestellungService;
 import de.shop.kundenverwaltung.domain.AbstractKunde;
 import de.shop.kundenverwaltung.service.KundeService;
 import de.shop.util.interceptor.Log;
-import de.shop.util.rest.NotFoundException;
 import de.shop.util.rest.UriHelper;
 
 @Path("/kunden")
 @Produces({ APPLICATION_JSON, APPLICATION_XML + ";qs=0.75", TEXT_XML + ";qs=0.5" })
 @Consumes
+@RequestScoped
 @Log
 public class KundeResource {
 	public static final String KUNDEN_ID_PATH_PARAM = "kundeId";
 	public static final String KUNDEN_NACHNAME_QUERY_PARAM = "nachname";
+	public static final String KUNDEN_EMAIL_QUERY_PARAM = "email";
 	public static final String KUNDEN_PLZ_QUERY_PARAM = "plz";
 	
-	private static final String NOT_FOUND_ID = "kunde.notFound.id";
-	private static final String NOT_FOUND_NACHNAME = "kunde.notFound.nachname";
-	private static final String NOT_FOUND_ALL = "kunde.notFound.all";
-
-	@Context
+	@Context   // DI durch JAX-RS, weshalb Producer-Klasse mit CDI fuer spaeteres @Inject nicht funktioniert
 	private UriInfo uriInfo;
 	
 	@Inject
@@ -82,12 +81,7 @@ public class KundeResource {
 	@Path("{" + KUNDEN_ID_PATH_PARAM + ":[1-9][0-9]*}")
 	public Response findKundeById(@PathParam(KUNDEN_ID_PATH_PARAM) Long id) {
 		final AbstractKunde kunde = ks.findKundeById(id);
-		if (kunde == null) {
-			throw new NotFoundException(NOT_FOUND_ID, id);
-		}
-		
 		setStructuralLinks(kunde, uriInfo);
-
 		return Response.ok(kunde)
 			           .links(getTransitionalLinks(kunde, uriInfo))
 			           .build();
@@ -124,7 +118,7 @@ public class KundeResource {
 		                        .rel(REMOVE_LINK)
 		                        .build();
 		
-		return new Link[] { self, list, add, update, remove };
+		return new Link[] {self, list, add, update, remove };
 	}
 
 	
@@ -136,15 +130,19 @@ public class KundeResource {
 	public Response findKunden(@QueryParam(KUNDEN_NACHNAME_QUERY_PARAM)
    	                           @Pattern(regexp = AbstractKunde.NACHNAME_PATTERN, message = "{kunde.nachname.pattern}")
 							   String nachname,
+							   @QueryParam(KUNDEN_EMAIL_QUERY_PARAM)
+   	                           @Email(message = "{kunde.email}")
+							   String email,
 							   @QueryParam(KUNDEN_PLZ_QUERY_PARAM)
    	                           @Pattern(regexp = "\\d{5}", message = "{adresse.plz}")
 							   String plz) {
 		List<? extends AbstractKunde> kunden = null;
+		AbstractKunde kunde = null;
 		if (nachname != null) {
 			kunden = ks.findKundenByNachname(nachname);
-			if (kunden.isEmpty()) {
-				throw new NotFoundException(NOT_FOUND_NACHNAME, nachname);
-			}
+		}
+		else if (email != null) {
+			kunde = ks.findKundeByEmail(email);
 		}
 		else if (plz != null) {
 			// TODO Beispiel fuer ein TODO bei fehlender Implementierung
@@ -152,17 +150,28 @@ public class KundeResource {
 		}
 		else {
 			kunden = ks.findAllKunden();
-			if (kunden.isEmpty()) {
-				throw new NotFoundException(NOT_FOUND_ALL);
+		}
+		
+		Object entity = null;
+		Link[] links = null;
+		if (kunden != null) {
+			for (AbstractKunde k : kunden) {
+				setStructuralLinks(k, uriInfo);
 			}
+			// FIXME JDK 8 hat Lambda-Ausdruecke, 
+			//aber Proxy-Klassen von Weld funktionieren noch nicht mit Lambda-Ausdruecken
+			//kunden.parallelStream()
+			//      .forEach(k -> setStructuralLinks(k, uriInfo));
+			entity = new GenericEntity<List<? extends AbstractKunde>>(kunden) { };
+			links = getTransitionalLinksKunden(kunden, uriInfo);
+		}
+		else if (kunde != null) {
+			entity = kunde;
+			links = getTransitionalLinks(kunde, uriInfo);
 		}
 		
-		for (AbstractKunde k : kunden) {
-			setStructuralLinks(k, uriInfo);
-		}
-		
-		return Response.ok(new GenericEntity<List<? extends AbstractKunde>>(kunden){})
-                       .links(getTransitionalLinksKunden(kunden, uriInfo))
+		return Response.ok(entity)
+                       .links(links)
                        .build();
 	}
 	
@@ -179,26 +188,26 @@ public class KundeResource {
                               .rel(LAST_LINK)
                               .build();
 		
-		return new Link[] { first, last };
+		return new Link[] {first, last };
 	}
 	
 	@GET
 	@Path("{id:[1-9][0-9]*}/bestellungen")
 	public Response findBestellungenByKundeId(@PathParam("id") Long kundeId) {
 		final AbstractKunde kunde = ks.findKundeById(kundeId);
-		if (kunde == null) {
-			throw new NotFoundException(NOT_FOUND_ID, kundeId);
-		}
-		
 		final List<Bestellung> bestellungen = bs.findBestellungenByKunde(kunde);
 		// URIs innerhalb der gefundenen Bestellungen anpassen
 		if (bestellungen != null) {
 			for (Bestellung bestellung : bestellungen) {
 				bestellungResource.setStructuralLinks(bestellung, uriInfo);
 			}
+			// FIXME JDK 8 hat Lambda-Ausdruecke, 
+			//aber Proxy-Klassen von Weld funktionieren noch nicht mit Lambda-Ausdruecken
+			//bestellungen.parallelStream()
+			//            .forEach(b -> bestellungResource.setStructuralLinks(b, uriInfo));
 		}
 		
-		return Response.ok(new GenericEntity<List<Bestellung>>(bestellungen){})
+		return Response.ok(new GenericEntity<List<Bestellung>>(bestellungen) { })
                        .links(getTransitionalLinksBestellungen(bestellungen, kunde, uriInfo))
                        .build();
 	}
@@ -222,7 +231,7 @@ public class KundeResource {
                               .rel(LAST_LINK)
                               .build();
 		
-		return new Link[] { self, first, last };
+		return new Link[] {self, first, last };
 	}
 	
 	@POST
@@ -231,7 +240,6 @@ public class KundeResource {
 	public Response createKunde(@Valid AbstractKunde kunde) {
 		// Rueckwaertsverweis von Adresse zu Kunde setzen
 		kunde.getAdresse().setKunde(kunde);
-		
 		kunde = ks.createKunde(kunde);
 		
 		return Response.created(getUriKunde(kunde, uriInfo))
