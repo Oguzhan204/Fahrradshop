@@ -54,6 +54,7 @@ public class KundeService implements Serializable {
 //		if (tmp != null) {
 //			throw new EmailExistsException(kunde.getEmail());
 //		}
+
 		// TODO Datenbanzugriffsschicht statt Mock
 		kunde = Mock.createKunde(kunde);
 

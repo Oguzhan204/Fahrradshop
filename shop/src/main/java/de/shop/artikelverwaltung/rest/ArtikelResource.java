@@ -38,7 +38,7 @@ public class ArtikelResource {
 	
 	@Inject
 	private UriHelper uriHelper;
-	
+
 	@Context 
 	private UriInfo uriInfo;
 	

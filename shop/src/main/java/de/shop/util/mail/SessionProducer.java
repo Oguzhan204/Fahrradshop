@@ -6,6 +6,7 @@ import javax.enterprise.inject.Produces;
 import javax.mail.Session;
 
 
+
 /**
  * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
  */
