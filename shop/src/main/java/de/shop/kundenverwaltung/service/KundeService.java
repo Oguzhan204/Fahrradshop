@@ -50,10 +50,10 @@ public class KundeService implements Serializable {
 			return kunde;
 		}
 
-		final AbstractKunde tmp = findKundeByEmail(kunde.getEmail());  // Kein Aufruf als Business-Methode
-		if (tmp != null) {
-			throw new EmailExistsException(kunde.getEmail());
-		}
+//		final AbstractKunde tmp = findKundeByEmail(kunde.getEmail());  // Kein Aufruf als Business-Methode
+//		if (tmp != null) {
+//			throw new EmailExistsException(kunde.getEmail());
+//		}
 		// TODO Datenbanzugriffsschicht statt Mock
 		kunde = Mock.createKunde(kunde);
 

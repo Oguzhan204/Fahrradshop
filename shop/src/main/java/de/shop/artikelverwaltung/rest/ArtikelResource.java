@@ -39,9 +39,12 @@ public class ArtikelResource {
 	@Inject
 	private UriHelper uriHelper;
 	
+	@Context 
+	private UriInfo uriInfo;
+	
 	@GET
 	@Path("{id:[1-9][0-9]*}")
-	public Response FindArtikelById(@PathParam("id") Long id, @Context UriInfo uriInfo) {
+	public Response FindArtikelById(@PathParam("id") Long id) {
 		final Artikel artikel = as.findArtikelById(id);
 		return Response.ok(artikel)
                        .links(getTransitionalLinks(artikel, uriInfo))
