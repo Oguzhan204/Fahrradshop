@@ -1,7 +1,6 @@
 package de.shop.util;
 
 import java.lang.invoke.MethodHandles;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -158,6 +157,20 @@ public final class Mock {
 		LOGGER.infof("Neuer Kunde: %s", kunde);
 		return kunde;
 	}
+	
+	public static Artikel createArtikel (Artikel artikel)
+	{
+		final String bezeichnung = artikel.getBezeichnung();
+		@SuppressWarnings("unused")
+		final double preis = artikel.getPreis();
+		artikel.setId(Long.valueOf(bezeichnung.length())+ 1);
+		
+		LOGGER.infof("Neuer Artikel: %s", artikel);
+		
+		return artikel;
+		
+		
+	}
 
 	public static void updateKunde(AbstractKunde kunde) {
 		LOGGER.infof("Aktualisierter Kunde: %s", kunde);
@@ -176,6 +189,7 @@ public final class Mock {
 		final Artikel artikel = new Artikel();
 		artikel.setId(id);
 		artikel.setBezeichnung("Bezeichnung_" + id);
+		artikel.setPreis(10.99);
 		return artikel;
 	}
 
