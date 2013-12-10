@@ -82,7 +82,7 @@ public class KundeService implements Serializable {
 	}
 
 	public void deleteKunde(Long kundeId) {
-		AbstractKunde kunde = findKundeById(kundeId);  // Kein Aufruf als Business-Methode
+		final AbstractKunde kunde = findKundeById(kundeId);  // Kein Aufruf als Business-Methode
 		if (kunde == null) {
 			return;
 		}

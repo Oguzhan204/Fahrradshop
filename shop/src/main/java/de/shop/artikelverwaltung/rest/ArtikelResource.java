@@ -9,8 +9,10 @@ import java.net.URI;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+//import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+//import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -21,6 +23,7 @@ import javax.ws.rs.core.UriInfo;
 
 import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.artikelverwaltung.service.ArtikelService;
+//import de.shop.kundenverwaltung.domain.AbstractKunde;
 import de.shop.util.interceptor.Log;
 import de.shop.util.rest.UriHelper;
 
@@ -44,7 +47,7 @@ public class ArtikelResource {
 	
 	@GET
 	@Path("{id:[1-9][0-9]*}")
-	public Response FindArtikelById(@PathParam("id") Long id) {
+	public Response findArtikelById(@PathParam("id") Long id) {
 		final Artikel artikel = as.findArtikelById(id);
 		return Response.ok(artikel)
                        .links(getTransitionalLinks(artikel, uriInfo))
@@ -62,4 +65,5 @@ public class ArtikelResource {
 	public URI getUriArtikel(Artikel artikel, UriInfo uriInfo) {
 		return uriHelper.getUri(ArtikelResource.class, "findArtikelById", artikel.getId(), uriInfo);
 	}
+	
 }

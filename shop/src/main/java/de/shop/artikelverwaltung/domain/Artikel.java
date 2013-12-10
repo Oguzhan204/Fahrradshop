@@ -19,15 +19,13 @@ public class Artikel implements Serializable {
 	private static final int PREIS_MAX = 16;
 	private static final String PREIS_PATTERN = "\\d[,]";
 	
-	
-	
-	@Size(max = PREIS_MAX, message = "{artikel.preis.max}" )
+	@Size(max = PREIS_MAX, message = "{artikel.preis.max}")
 	@NotNull(message = "{artikel.preis.notNull}")
 	@Pattern(regexp = PREIS_PATTERN, message = "{artikel.preis.pattern}")
 	private BigDecimal preis;
 
 
-	@Size(min = BEZEICHNUNG_LENGTH_MIN, max = BEZEICHNUNG_LENGTH_MAX, message = "{artikel.bezeichnung.length}" )
+	@Size(min = BEZEICHNUNG_LENGTH_MIN, max = BEZEICHNUNG_LENGTH_MAX, message = "{artikel.bezeichnung.length}")
 	@NotNull(message = "{artikel.bezeichnung.notNull}")
 	@Pattern(regexp = BEZEICHNUNG_PATTERN, message = "{artikel.bezeichnung.pattern}")
 	private String bezeichnung;
@@ -67,6 +65,7 @@ public class Artikel implements Serializable {
 		return result;
 	}
 	@Override
+	
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -74,7 +73,8 @@ public class Artikel implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Artikel other = (Artikel) obj;
+		//final Artikel other;
+		final Artikel other = (Artikel) obj;
 		if (bezeichnung == null) {
 			if (other.bezeichnung != null)
 				return false;
@@ -84,7 +84,8 @@ public class Artikel implements Serializable {
 		if (preis == null) {
 			if (other.preis != null)
 				return false;
-		} else if (!preis.equals(other.preis))
+		} 
+		else if (!preis.equals(other.preis))
 			return false;
 		return true;
 	}
